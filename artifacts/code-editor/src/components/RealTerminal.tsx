@@ -192,8 +192,8 @@ export default function RealTerminal({
     });
     if (containerRef.current) ro.observe(containerRef.current);
 
-    // Busca URL direta ao API server (porta 8080) via /api/config para evitar
-    // duplo-proxy Replit→Vite→API que impede WebSocket de funcionar no ambiente Replit.
+    // Busca URL direta ao API server (porta 8080) via /api/config
+    // duplo-proxy Vite→API que permite WebSocket de funcionar no ambiente
     const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
     const fallbackWsUrl = `${proto}//${window.location.host}/api/ws/terminal`;
 
@@ -243,8 +243,8 @@ export default function RealTerminal({
         term.writeln("\x1b[32m[Terminal bash conectado ✓]\x1b[0m\r\n");
 
         // ── Keepalive do cliente ──────────────────────────────────────────
-        // Envia um byte nulo a cada 20s para manter o proxy do Replit vivo.
-        // Sem isso, o proxy fecha a conexão após ~60s de inatividade de dados,
+        // Envia um byte nulo a cada 60s para manter o proxy  vivo.
+        // Sem isso, o proxy fecha a conexão após ~120s de inatividade de dados,
         // mesmo que o npm install ainda esteja rodando no servidor.
         if (clientHeartbeatRef.current) clearInterval(clientHeartbeatRef.current);
         clientHeartbeatRef.current = setInterval(() => {

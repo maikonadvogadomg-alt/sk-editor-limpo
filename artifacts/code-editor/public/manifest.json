@@ -3,7 +3,7 @@
   "name": "SK Code Editor",
   "short_name": "SK Editor",
   "description": "Editor de código profissional com IA para mobile, criado para Saulo Kenji.",
-  "start_url": "./",
+  "start_url": "https://maikonadvogadomg-alt.github.io/sk-editor-limpo/",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui", "browser"],

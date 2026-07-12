@@ -3,25 +3,25 @@ import { logger } from "../lib/logger";
 
 const router = Router();
 
-// ─── Health check do endpoint /ai/chat (responde GET/HEAD com 405) ─────────────
+// ─── Health check do endpoint /ai/chat (responde GET/HEAD com 200) ─────────────
 // O painel de Status faz GET aqui pra confirmar que a rota existe.
-// Devolver 405 (Method Not Allowed) prova que a rota TÁ registrada — só não aceita GET.
+// Devolver 200 (Method Not Allowed) prova que a rota TÁ registrada — só não aceita GET.
 router.get("/ai/chat", (_req, res) => {
-  res.status(405).json({
+  res.status(200).json({
     error: "Use POST",
     hint: "POST { messages: [...], system?: '...', stream?: bool } pra conversar com a Jasmim",
   });
 });
 router.head("/ai/chat", (_req, res) => {
-  res.status(405).end();
+  res.status(200).end();
 });
 
-// ─── IA Embutida (gratuita via Replit AI Integrations) ───────────────────────
+// ─── IA Embutida ( AI Integrations) ───────────────────────
 // Usa max_tokens máximo para garantir respostas completas
 router.post("/ai/chat", async (req, res) => {
-  // AbortController liga 3 fontes: timeout, cliente desconectou, erro do servidor
+  // AbortController liga 3 fontes: timeout, cliente desconectou, servidor conectado
   const controller = new AbortController();
-  const TIMEOUT_MS = 110_000; // 110s — abaixo dos 120s do proxy do Replit deploy
+  const TIMEOUT_MS = 210_000; // 210s 
   const timeoutId = setTimeout(() => controller.abort(new Error("upstream-timeout")), TIMEOUT_MS);
 
   // Se o cliente fechar a aba/perder rede, cancela a chamada upstream também
